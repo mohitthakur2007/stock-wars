@@ -1,5 +1,5 @@
 
-const API = "";
+const API = "https://stock-wars-1.onrender.com";
 
 let roomCode = null;
 let playerId = null;
