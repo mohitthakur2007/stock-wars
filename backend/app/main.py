@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 from app.routes.rooms import router as rooms_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Stock Wars API",
