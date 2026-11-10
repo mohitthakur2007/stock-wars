@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Wars | Private Auction Game</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <a class="brand" href="/">STOCK<span>WARS</span></a>
+        <span class="online-label">● MULTIPLAYER GAME</span>
+    </header>
+
+    <main class="container">
+
+        <section id="home-screen">
+            <div class="hero">
+                <p class="eyebrow">THE ULTIMATE INVESTMENT BATTLE</p>
+                <h1>Outbid.<br><span>Outsmart.</span> Outplay.</h1>
+                <p class="subtitle">
+                    Build your portfolio. Discover hidden companies.
+                    Beat your friends.
+                </p>
+            </div>
+
+            <div class="home-grid">
+                <div class="panel">
+                    <h2>Create a room</h2>
+                    <p class="muted">Become the auction host.</p>
+
+                    <label>Your name</label>
+                    <input id="host-name" placeholder="Enter your name">
+
+                    <label>Maximum players</label>
+                    <select id="max-players">
+                        <option value="2">2 Players</option>
+                        <option value="4">4 Players</option>
+                        <option value="6">6 Players</option>
+                        <option value="8" selected>8 Players</option>
+                    </select>
+
+                    <label>Starting capital</label>
+                    <select id="starting-cash">
+                        <option value="5000">₹5,000</option>
+                        <option value="10000" selected>₹10,000</option>
+                        <option value="15000">₹15,000</option>
+                        <option value="20000">₹20,000</option>
+                    </select>
+
+                    <label>Number of companies</label>
+                    <select id="company-count">
+                        <option value="10">10 Companies</option>
+                        <option value="12" selected>12 Companies</option>
+                        <option value="15">15 Companies</option>
+                    </select>
+
+                    <button id="create-btn" class="primary-btn">
+                        Create Private Room →
+                    </button>
+                </div>
+
+                <div class="panel join-panel">
+                    <h2>Join a room</h2>
+                    <p class="muted">Enter your friend's room code.</p>
+
+                    <label>Your name</label>
+                    <input id="join-name" placeholder="Enter your name">
+
+                    <label>Room code</label>
+                    <input id="room-code" placeholder="ABC123"
+                           maxlength="6" class="room-input">
+
+                    <button id="join-btn" class="secondary-btn">
+                        Join Game →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="lobby-screen" class="hidden">
+            <div class="lobby-heading">
+                <div>
+                    <p class="eyebrow">PRIVATE GAME ROOM</p>
+                    <h1>Waiting <span>Room</span></h1>
+                </div>
+                <div class="room-code-box">
+                    <small>ROOM CODE</small>
+                    <strong id="display-code">------</strong>
+                    <button id="copy-code" class="copy-btn">Copy code</button>
+                </div>
+            </div>
+
+            <div class="lobby-grid">
+                <div class="panel">
+                    <div class="section-heading">
+                        <h2>Players</h2>
+                        <span id="player-count" class="count">0/8</span>
+                    </div>
+                    <div id="players-list"></div>
+                </div>
+
+                <div class="panel settings-panel">
+                    <h2>Game settings</h2>
+                    <div class="setting-row">
+                        <span>Starting capital</span>
+                        <strong id="setting-cash">₹10,000</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Companies</span>
+                        <strong id="setting-companies">12</strong>
+                    </div>
+                    <div class="setting-row">
+                        <span>Maximum players</span>
+                        <strong id="setting-max">8</strong>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <button id="ready-btn" class="secondary-btn">
+                        ✓ I'm Ready
+                    </button>
+
+                    <button id="start-btn" class="primary-btn hidden">
+                        Start Auction →
+                    </button>
+
+                    <p id="lobby-message" class="muted status-message">
+                        Waiting for players...
+                    </p>
+                </div>
+            </div>
+
+            <button id="leave-btn" class="leave-btn">
+                Leave room
+            </button>
+        </section>
+
+
+        <!-- REAL AUCTION SCREEN -->
+        <section id="game-screen" class="hidden">
+
+            <div class="game-heading">
+                <div>
+                    <p class="eyebrow">LIVE COMPANY AUCTION</p>
+                    <h1>Stock <span>Wars</span></h1>
+                </div>
+                <div class="game-room-code">
+                    ROOM: <strong id="game-room-code">------</strong>
+                </div>
+            </div>
+
+            <div id="auction-view">
+
+                <div class="target-banner">
+                    <div>
+                        <p class="eyebrow">YOUR SECRET TARGET</p>
+                        <p class="muted">
+                            Acquire this company to qualify for the win.
+                        </p>
+                    </div>
+                    <strong id="target-company">C--</strong>
+                </div>
+
+                <div class="auction-heading">
+                    <div>
+                        <p class="eyebrow">CURRENT LOT</p>
+                        <h2>Mystery Company Auction</h2>
+                    </div>
+                    <span class="auction-progress" id="auction-progress">
+                        1 / 12
+                    </span>
+                </div>
+
+                <div class="auction-grid">
+
+                    <div class="panel company-panel">
+                        <div class="company-title">
+                            <div class="mystery-icon">?</div>
+                            <div>
+                                <p class="eyebrow">MYSTERY COMPANY</p>
+                                <h2 id="company-id">C01</h2>
+                                <p class="muted">
+                                    Identity hidden until the final reveal.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="company-details">
+                            <div class="auction-detail">
+                                <span>Sector</span>
+                                <strong id="company-sector">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Business</span>
+                                <strong id="company-business">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Risk</span>
+                                <strong id="company-risk">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Growth outlook</span>
+                                <strong id="company-growth">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Revenue trend</span>
+                                <strong id="company-revenue">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Base valuation</span>
+                                <strong id="base-valuation">-</strong>
+                            </div>
+                            <div class="auction-detail">
+                                <span>Starting bid</span>
+                                <strong id="starting-bid">-</strong>
+                            </div>
+                        </div>
+
+                        <p class="identity-note">
+                            All companies belong to the NIFTY 100 universe.
+                            Their names and ticker symbols are hidden.
+                        </p>
+                    </div>
+
+
+                    <div class="panel bidding-panel">
+
+                        <div class="timer-box">
+                            <p class="eyebrow">TIME REMAINING</p>
+                            <strong id="auction-timer">12</strong>
+                            <small>SECONDS</small>
+                        </div>
+
+                        <div class="current-bid">
+                            <p class="muted">HIGHEST BID</p>
+                            <h2 id="highest-bid">No bids yet</h2>
+                            <p class="muted">
+                                Leading bidder:
+                                <strong id="highest-bidder">None</strong>
+                            </p>
+                        </div>
+
+                        <div class="cash-box">
+                            <span>Your available cash</span>
+                            <strong id="your-cash">₹10,000</strong>
+                        </div>
+
+                        <label for="bid-amount">Enter your bid (₹)</label>
+                        <input type="number" id="bid-amount"
+                               min="1" step="1"
+                               placeholder="Enter bid amount">
+
+                        <p class="minimum-bid">
+                            Minimum bid:
+                            <strong id="minimum-bid">-</strong>
+                        </p>
+
+                        <button id="bid-btn" class="primary-btn">
+                            Place Bid →
+                        </button>
+
+                        <p id="bid-message" class="muted bid-message"></p>
+                    </div>
+
+                </div>
+
+                <div class="panel auction-players-panel">
+                    <div class="section-heading">
+                        <h2>Live Players</h2>
+                    </div>
+                    <div id="auction-players"></div>
+                </div>
+
+            </div>
+
+
+            <!-- FINAL RESULTS -->
+            <div id="results-view" class="hidden">
+
+                <div class="panel winner-panel">
+                    <p class="eyebrow">AUCTION COMPLETED</p>
+                    <h1>Game <span>Over!</span></h1>
+                    <p class="muted">The winning investor is</p>
+                    <h2 id="winner-name">Winner</h2>
+                    <strong id="winner-value">₹0</strong>
+                    <p id="winner-reason" class="muted"></p>
+                </div>
+
+                <div class="panel results-panel">
+                    <h2>Final Leaderboard</h2>
+                    <div id="final-leaderboard"></div>
+                </div>
+
+                <div class="panel results-panel">
+                    <h2>NIFTY 100 Company Reveal</h2>
+                    <p class="muted">
+                        Discover which companies were hidden during the auction.
+                    </p>
+                    <div id="company-reveal"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <div id="toast" class="toast hidden"></div>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
